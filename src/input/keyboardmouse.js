@@ -14,12 +14,10 @@ export default function keyboardMouseInput(game) {
     game.world.player.sprite.y -= game.world.player.actorSpeed;
     if (game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-      game.world.player.sprite.y -= game.world.player.actorSpeed;
       game.world.player.sprite.x -= game.world.player.actorSpeed;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-      game.world.player.sprite.y -= game.world.player.actorSpeed;
       game.world.player.sprite.x += game.world.player.actorSpeed;
     }
   }
@@ -29,12 +27,10 @@ export default function keyboardMouseInput(game) {
     game.world.player.sprite.y += game.world.player.actorSpeed;
     if (game.input.keyboard.isDown(Phaser.Keyboard.A))
     {
-      game.world.player.sprite.y += game.world.player.actorSpeed;
       game.world.player.sprite.x -= game.world.player.actorSpeed;
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.D))
     {
-      game.world.player.sprite.y += game.world.player.actorSpeed;
       game.world.player.sprite.x += game.world.player.actorSpeed;
     }
   }
