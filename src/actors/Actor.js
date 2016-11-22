@@ -11,7 +11,7 @@ export default class Actor {
     this.sprite.anchor.setTo(0.7, 0.7);
     this.sprite.scale.setTo(0.3, 0.3)
 
-    this.gunList = new List();
+    this.gunList = new List(); //getGunList()[0] is the currently equipped weapon
 
     this.itemSlot1;
     this.itemSlot2;
@@ -32,6 +32,7 @@ export default class Actor {
 
   addGun(gun) {
     this.gunList.push(gun);
+    this.gunList.get(gun).trackSprite(this.sprite, 0, 0, true);
   }
 
   getGunList() {

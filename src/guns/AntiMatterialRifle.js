@@ -27,7 +27,7 @@ class AntiMatterBullet extends Phaser.Bullet {
   }
 }
 
-export default class PlasmaGun extends Phaser.Weapon {
+export default class AntiMatterialRifle extends Phaser.Weapon {
   constructor(game) {
     super(game, game.plugins);
 
@@ -47,7 +47,7 @@ export default class PlasmaGun extends Phaser.Weapon {
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS; //KILL_DISTANCE : 2
     this.bulletDistance = 1200;
     this.nextFire = 0; //this should always be 0
-    this.createBullets(-1, 'laser');
+    this.createBullets(-1, 'antimatterial');
     this.onFire.add(this.useBullet, this); //use a bullet when shooting
     this.onFire.add(this.firePlus, this); //play shoot sound when shooting
     this.isReloading = false;
@@ -77,7 +77,7 @@ export default class PlasmaGun extends Phaser.Weapon {
   }
 
   getReloadTime() {
-    return 2 * Phaser.Timer.SECOND;
+    return 3 * Phaser.Timer.SECOND;
   }
 
   initiateReload(game) {

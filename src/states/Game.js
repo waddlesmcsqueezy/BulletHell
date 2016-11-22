@@ -7,6 +7,7 @@ import gamepadInput from '../input/gamepad'
 
 import Actor from '../actors/Actor';
 import PlasmaGun from '../guns/PlasmaGun';
+import AntiMatterialRifle from '../guns/AntiMatterialRifle';
 
 var Inputs = {
   GAMEPAD: "gamepad",
@@ -27,7 +28,7 @@ export default class extends Phaser.State {
 
     this.world.player = new Actor(this);
     this.world.player.addGun(new PlasmaGun(this));
-    this.world.player.getGunList()[0].trackSprite(this.world.player.sprite, 0, 0, true);
+    this.world.player.addGun(new AntiMatterialRifle(this));
 
     console.log(this);
 
@@ -89,11 +90,8 @@ export default class extends Phaser.State {
       game.debug.text('Equipped Weapon: ' + this.world.player.getGunList()[0].name, 32, 132);
       game.debug.text('Magazine: ' + this.world.player.getGunList()[0].magazine + ' / ' + this.world.player.getGunList()[0].getMaxMagazine(), 32, 172);
       game.debug.text("Time until reload: " + this.time.events.duration / 1000, 32, 200);
-      game.debug.text("WASD or Left Thumbstick to move", 400, 72);
-      game.debug.text("R or Square/X to reload", 450, 100);
-      game.debug.text("Click or Right Trigger to shoot", 400, 132);
-      game.debug.text("Click Button to switch controls", 400, 164);
-      game.debug.text("Controls are currently: " + this.selectedInput, 380, 196);
+      game.debug.text("See README for controls", 400, 72);
+      game.debug.text("Controls are currently: " + this.selectedInput, 450, 100);
     }
   }
 }
