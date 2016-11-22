@@ -25,6 +25,10 @@ export default class PlasmaGun extends Phaser.Weapon {
   constructor(game) {
     super(game, game.plugins);
 
+    // sounds
+    this.reloadSound = game.add.audio('plasmagun_reload');
+    this.shootSound = game.add.audio('plasmagun_shoot');
+    this.sprite; //unused atm
     //fluff
     this.name = 'The Master Blaster';
     //gun stats
@@ -38,8 +42,17 @@ export default class PlasmaGun extends Phaser.Weapon {
     this.bulletDistance = 800;
     this.nextFire = 0; //this should always be 0
     this.createBullets(-1, 'laser');
-    // this.bullets.enableBody = true;
-    // this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    this.onFire.add(this.useBullet, this); //use a bullet when shooting
+    this.onFire.add(this.firePlus, this); //play shoot sound when shooting
+    this.isReloading = false;
+  }
+
+  firePlus() {
+    this.shootSound.play()
+  }
+
+  useBullet() {
+    this.magazine -= 1;
   }
 
   hasBullets() {
@@ -54,6 +67,7 @@ export default class PlasmaGun extends Phaser.Weapon {
 
   resetMagazine() {
     this.magazine = this.getMaxMagazine();
+    this.isReloading = false;
   }
 
   getReloadTime() {
@@ -61,6 +75,10 @@ export default class PlasmaGun extends Phaser.Weapon {
   }
 
   initiateReload(game) {
-    game.time.events.add(this.getReloadTime(), this.resetMagazine, this);
+    if (this.isReloading == false) {
+      this.isReloading = true;
+      this.reloadSound.play();
+      game.time.events.add(this.getReloadTime(), this.resetMagazine, this);
+    } else {console.log("already reloading")}
   }
 }

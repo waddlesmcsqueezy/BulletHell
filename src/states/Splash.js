@@ -15,7 +15,9 @@ export default class extends Phaser.State {
     game.load.image('soldier', 'http://i2.wp.com/unluckystudio.com/wp-content/uploads/2015/03/preview_idle.gif?resize=250%2C213');
     game.load.image('laser', 'assets/images/laser.png');
     game.load.spritesheet('controller-indicator', 'https://github.com/photonstorm/phaser-examples/blob/master/examples/assets/misc/controller-indicator.png?raw=true', 16,16);
-    game.load.image('button', 'http://willyoupressthebutton.com/images/mygtukas.png')
+    game.load.image('button', 'http://willyoupressthebutton.com/images/mygtukas.png');
+    game.load.audio('plasmagun_shoot', 'assets/sound/plasmagun/shoot.mp3');
+    game.load.audio('plasmagun_reload', 'assets/sound/plasmagun/reload.mp3');
   }
 
   create () {

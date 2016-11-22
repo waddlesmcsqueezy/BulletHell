@@ -2,7 +2,9 @@ export default function keyboardMouseInput(game) {
   game.world.player.sprite.rotation = game.physics.arcade.angleToPointer(game.world.player.sprite, game.input.activePointer);
 
   if (game.input.activePointer.isDown) {
-    game.world.player.gun.fireAtPointer(game.input.activePointer);
+    if (game.world.player.gun.magazine > 0) {
+      game.world.player.gun.fireAtPointer(game.input.activePointer);
+    }
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {

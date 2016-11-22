@@ -6,7 +6,14 @@ export default function gamepadInput(game) {
 
       if (game.input.gamepad.pad1._buttons[7] != null) {
         if (game.input.gamepad.pad1._buttons[7].isDown) {
-          game.world.player.gun.fire();
+          if (game.world.player.gun.magazine > 0 && !game.world.player.gun.isReloading) {
+            game.world.player.gun.fire();
+          }
+        }
+        if (game.input.gamepad.pad1._buttons[2].isDown) {
+          if (game.world.player.gun.magazine != game.world.player.gun.getMaxMagazine()) {
+            game.world.player.gun.initiateReload(game);
+          }
         }
       }
   }

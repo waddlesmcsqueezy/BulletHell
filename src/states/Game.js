@@ -43,6 +43,8 @@ export default class extends Phaser.State {
       this.world.indicator.scale.x = this.world.indicator.scale.y = 2;
       this.world.indicator.animations.frame = 1;
 
+      this.world.indicator.fixedToCamera = true;
+
       this.input.gamepad.start();
 
       // To listen to buttons from a specific pad listen directly on that pad game.input.gamepad.padX, where X = pad 1-4
@@ -87,9 +89,9 @@ export default class extends Phaser.State {
       game.debug.text('Equipped Weapon: ' + this.world.player.gun.name, 32, 132);
       game.debug.text('Magazine: ' + this.world.player.gun.magazine + ' / ' + this.world.player.gun.getMaxMagazine(), 32, 172);
       game.debug.text("Time until reload: " + this.time.events.duration / 1000, 32, 200);
-      game.debug.text("WASD to move", 500, 72);
-      game.debug.text("R to reload", 500, 100);
-      game.debug.text("Click to shoot", 500, 132);
+      game.debug.text("WASD or Left Thumbstick to move", 400, 72);
+      game.debug.text("R or Square/X to reload", 450, 100);
+      game.debug.text("Click or Right Trigger to shoot", 400, 132);
       if (game.gamepadIsInitialized) {
         game.debug.text(pad1);
       }
