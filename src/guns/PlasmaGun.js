@@ -39,7 +39,7 @@ export default class PlasmaGun extends Phaser.Weapon {
     this.name = 'The Master Blaster';
     //gun stats
     this.magazine = this.getMaxMagazine();
-    this.fireRate = 170; // delay inbetween shots in ms
+    this.fireRate = .001; // delay inbetween shots in ms
     this.bulletSpeed = 1100; //speed of bullets (pixels per second?)
     this.bulletSpread = 15; // does nothing right now
 
@@ -68,7 +68,7 @@ export default class PlasmaGun extends Phaser.Weapon {
   }
 
   getMaxMagazine() {
-    return 20;
+    return 2000;
   }
 
   resetMagazine() {

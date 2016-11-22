@@ -23,11 +23,15 @@ export default class Actor {
   }
 
   nextGun() {
-    this.gunList.push(this.gunList.shift()); //remove first item in the list and move it to the end;
+    if (this.getGunList()[0].isReloading == false) {
+      this.gunList.push(this.gunList.shift()); //remove first item in the list and move it to the end;
+    }
   }
 
   previousGun() {
-    this.gunList.unshift(this.gunList.pop()); //remove last item in the list and move it to the beginning
+    if (this.getGunList()[0].isReloading == false) {
+      this.gunList.unshift(this.gunList.pop()); //remove last item in the list and move it to the beginning
+    }
   }
 
   addGun(gun) {
