@@ -91,7 +91,7 @@ export default class extends Phaser.State {
       game.debug.text('Magazine: ' + this.world.player.getGunList()[0].magazine + ' / ' + this.world.player.getGunList()[0].getMaxMagazine(), 32, 172);
       game.debug.text("Time until reload: " + this.time.events.duration / 1000, 32, 200);
       game.debug.text("See README for controls", 400, 72);
-      game.debug.text("Controls are currently: " + this.selectedInput, 450, 100);
+      game.debug.text("Controls are currently: " + this.selectedInput, 400, 100);
     }
   }
 }
