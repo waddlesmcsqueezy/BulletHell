@@ -10,7 +10,7 @@ import PlasmaGun from '../guns/PlasmaGun';
 
 var Inputs = {
   GAMEPAD: "gamepad",
-  KEYBOARDMOUSE: "keyboard and mouse"
+  KEYBOARDMOUSE: "keyboard"
 }
 
 export default class extends Phaser.State {
@@ -25,9 +25,9 @@ export default class extends Phaser.State {
     this.ground = this.add.tileSprite(0, 0, this.world.bounds.width, this.world.bounds.height, 'ground');
     this.ground.tileScale.setTo(0.3, 0.3)
 
-    this.world.player = new Actor(game);
-    this.world.player.gun = new PlasmaGun(game);
-    this.world.player.gun.trackSprite(this.world.player.sprite, 0, 0, true);
+    this.world.player = new Actor(this);
+    this.world.player.addGun(new PlasmaGun(this));
+    this.world.player.getGunList()[0].trackSprite(this.world.player.sprite, 0, 0, true);
 
     console.log(this);
 
@@ -67,10 +67,10 @@ export default class extends Phaser.State {
 
   update() {
     // this.world.player.sprite.rotation = this.physics.arcade.angleToPointer(this.world.player.sprite);
-    // this.world.player.gun.fireFrom.x = this.world.player.sprite.x;
-    // this.world.player.gun.fireFrom.y = this.world.player.sprite.y;
-    // this.world.player.gun.fireFrom.width = this.world.player.sprite.width;
-    // this.world.player.gun.fireFrom.height = this.world.player.sprite.height;
+    // this.world.player.getGunList()[0].fireFrom.x = this.world.player.sprite.x;
+    // this.world.player.getGunList()[0].fireFrom.y = this.world.player.sprite.y;
+    // this.world.player.getGunList()[0].fireFrom.width = this.world.player.sprite.width;
+    // this.world.player.getGunList()[0].fireFrom.height = this.world.player.sprite.height;
 
     this.inputButton.scale.setTo(0.4, 0.4);
     this.inputButton.smoothed = false;
@@ -86,15 +86,14 @@ export default class extends Phaser.State {
   render () {
     if (__DEV__) {
       game.debug.spriteInfo(this.world.player.sprite, 32, 32);
-      game.debug.text('Equipped Weapon: ' + this.world.player.gun.name, 32, 132);
-      game.debug.text('Magazine: ' + this.world.player.gun.magazine + ' / ' + this.world.player.gun.getMaxMagazine(), 32, 172);
+      game.debug.text('Equipped Weapon: ' + this.world.player.getGunList()[0].name, 32, 132);
+      game.debug.text('Magazine: ' + this.world.player.getGunList()[0].magazine + ' / ' + this.world.player.getGunList()[0].getMaxMagazine(), 32, 172);
       game.debug.text("Time until reload: " + this.time.events.duration / 1000, 32, 200);
       game.debug.text("WASD or Left Thumbstick to move", 400, 72);
       game.debug.text("R or Square/X to reload", 450, 100);
       game.debug.text("Click or Right Trigger to shoot", 400, 132);
-      if (game.gamepadIsInitialized) {
-        game.debug.text(pad1);
-      }
+      game.debug.text("Click Button to switch controls", 400, 164);
+      game.debug.text("Controls are currently: " + this.selectedInput, 380, 196);
     }
   }
 }

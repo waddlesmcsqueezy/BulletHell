@@ -20,10 +20,10 @@
 // :
 // 5
 
-class LaserBullet extends Phaser.Bullet {
+class AntiMatterBullet extends Phaser.Bullet {
   constructor() {
     super();
-    this.damage = 5;
+    this.damage = 20;
   }
 }
 
@@ -32,20 +32,20 @@ export default class PlasmaGun extends Phaser.Weapon {
     super(game, game.plugins);
 
     // sounds
-    this.reloadSound = game.add.audio('plasmagun_reload');
-    this.shootSound = game.add.audio('plasmagun_shoot');
+    this.reloadSound = game.add.audio('antimatterial_reload');
+    this.shootSound = game.add.audio('antimatterial_shoot');
     this.sprite; //unused atm
     //fluff
-    this.name = 'The Master Blaster';
+    this.name = 'Anti-Matterial Rifle';
     //gun stats
     this.magazine = this.getMaxMagazine();
-    this.fireRate = 170; // delay inbetween shots in ms
-    this.bulletSpeed = 1400; //speed of bullets (pixels per second?)
+    this.fireRate = 850; // delay inbetween shots in ms
+    this.bulletSpeed = 1800; //speed of bullets (pixels per second?)
     this.bulletSpread = 15; // does nothing right now
 
     //bullet stats
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS; //KILL_DISTANCE : 2
-    this.bulletDistance = 600;
+    this.bulletDistance = 1200;
     this.nextFire = 0; //this should always be 0
     this.createBullets(-1, 'laser');
     this.onFire.add(this.useBullet, this); //use a bullet when shooting
@@ -68,7 +68,7 @@ export default class PlasmaGun extends Phaser.Weapon {
   }
 
   getMaxMagazine() {
-    return 15;
+    return 5;
   }
 
   resetMagazine() {

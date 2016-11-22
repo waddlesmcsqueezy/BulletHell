@@ -6,13 +6,13 @@ export default function gamepadInput(game) {
 
       if (game.input.gamepad.pad1._buttons[7] != null) {
         if (game.input.gamepad.pad1._buttons[7].isDown) {
-          if (game.world.player.gun.magazine > 0 && !game.world.player.gun.isReloading) {
-            game.world.player.gun.fire();
+          if (game.world.player.getGunList()[0].magazine > 0 && !game.world.player.getGunList()[0].isReloading) {
+            game.world.player.getGunList()[0].fire();
           }
         }
         if (game.input.gamepad.pad1._buttons[2].isDown) {
-          if (game.world.player.gun.magazine != game.world.player.gun.getMaxMagazine()) {
-            game.world.player.gun.initiateReload(game);
+          if (game.world.player.getGunList()[0].magazine != game.world.player.getGunList()[0].getMaxMagazine()) {
+            game.world.player.getGunList()[0].initiateReload(game);
           }
         }
       }
@@ -24,7 +24,7 @@ export default function gamepadInput(game) {
 
   // Controls
   // if (game.input.gamepad.pad1._buttons[7].isDown) {
-  //   game.world.player.gun.fireAtPointer(game.input.activePointer);
+  //   game.world.player.getGunList()[0].fireAtPointer(game.input.activePointer);
   // }
   if (game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)
   {

@@ -1,3 +1,5 @@
+import List from 'collections/list';
+
 export default class Actor {
   constructor(game) {
     this.armor;
@@ -9,9 +11,7 @@ export default class Actor {
     this.sprite.anchor.setTo(0.7, 0.7);
     this.sprite.scale.setTo(0.3, 0.3)
 
-    this.gunSlot1;
-    this.gunSlot2;
-    this.gun;
+    this.gunList = new List();
 
     this.itemSlot1;
     this.itemSlot2;
@@ -20,5 +20,21 @@ export default class Actor {
 
   getBody() {
       return this.sprite.body;
+  }
+
+  nextGun() {
+    this.gunList.push(this.gunList.shift()); //remove first item in the list and move it to the end;
+  }
+
+  previousGun() {
+    this.gunList.unshift(this.gunList.pop()); //remove last item in the list and move it to the beginning
+  }
+
+  addGun(gun) {
+    this.gunList.push(gun);
+  }
+
+  getGunList() {
+    return this.gunList.toArray();
   }
 }
