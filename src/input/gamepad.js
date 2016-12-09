@@ -14,14 +14,14 @@ export default function gamepadInput(game) {
   //   game.world.player.getGunList()[0].fireAtPointer(game.input.activePointer);
   // }
   if (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
-    game.world.player.sprite.x -= game.world.player.actorSpeed;
+    game.world.player.x -= game.world.player.actorSpeed;
   } else if (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
-    game.world.player.sprite.x += game.world.player.actorSpeed;
+    game.world.player.x += game.world.player.actorSpeed;
   } if (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1) {
-    game.world.player.sprite.y -= game.world.player.actorSpeed;
+    game.world.player.y -= game.world.player.actorSpeed;
   }
   else if (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1) {
-    game.world.player.sprite.y += game.world.player.actorSpeed;
+    game.world.player.y += game.world.player.actorSpeed;
   }
 
   if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.XBOX360_DPAD_LEFT, 30))
@@ -43,7 +43,7 @@ export default function gamepadInput(game) {
     console.log("Just pressed B")
   }
 
-  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_2, 30)) {
+  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.XBOX360_LEFT_BUMPER, 30)) {
     if (game.world.player.getGunList()[0].magazine != game.world.player.getGunList()[0].getMaxMagazine()) {
       game.world.player.getGunList()[0].initiateReload(game);
     }
@@ -55,10 +55,11 @@ export default function gamepadInput(game) {
   }
 
   if (game.input.gamepad.pad1.isDown(Phaser.Gamepad.BUTTON_7)) {
-    if (game.world.player.getGunList()[0].magazine > 0 && !game.world.player.getGunList()[0].isReloading) {
-      game.world.player.getGunList()[0].fire();
+    if (!game.world.player.getGunList()[0].isReloading) {
+      game.world.player.getGunList()[0].preFire(game);
+      game.world.player.getGunList()[0].isFiring = true;
     }
-  }
+  } else {game.world.player.getGunList()[0].isFiring = false;}
 
   if (game.input.gamepad.pad1.connected)
   {
@@ -67,7 +68,7 @@ export default function gamepadInput(game) {
 
       if (rightStickX || rightStickY)
       {
-        game.world.player.sprite.rotation = game.physics.arcade.angleToXY(game.world.player.sprite, game.world.player.sprite.x + rightStickX * 100, game.world.player.sprite.y + rightStickY * 100);
+        game.world.player.rotation = game.physics.arcade.angleToXY(game.world.player, game.world.player.x + rightStickX * 100, game.world.player.y + rightStickY * 100);
       }
   }
 }

@@ -20,16 +20,21 @@
 // :
 // 5
 
-class LaserBullet extends Phaser.Bullet {
-  constructor() {
-    super();
-    this.damage = 5;
-  }
-}
+// class LaserBullet extends Phaser.Bullet {
+//   constructor(game, x, y, key, frame) {
+//     super(game, x, y, key, frame);
+//     // Phaser.Bullet.call(game, x, y, key, frame);
+//     // this.damage = 1;
+//     // this.canPierce = false;
+//   }
+// }
+
+// LaserBullet.prototype = Object.create(Phaser.Bullet.prototype);
+// LaserBullet.prototype.constructor = LaserBullet;
 
 export default class PlasmaGun extends Phaser.Weapon {
   constructor(game) {
-    super(game, game.plugins);
+    super(game);
 
     // sounds
     this.reloadSound = game.add.audio('plasmagun_reload');
@@ -39,22 +44,36 @@ export default class PlasmaGun extends Phaser.Weapon {
     this.name = 'The Master Blaster';
     //gun stats
     this.magazine = this.getMaxMagazine();
-    this.fireRate = .001; // delay inbetween shots in ms
-    this.bulletSpeed = 1100; //speed of bullets (pixels per second?)
-    this.bulletSpread = 15; // does nothing right now
+    this.fireRate = 120; // delay inbetween shots in ms
+    this.bulletSpeed = 500; //speed of bullets (pixels per second?)
+    this.bulletAngleVariance = 9; // adds this many degrees of vairance to the bullet spread.
 
     //bullet stats
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS; //KILL_DISTANCE : 2
-    this.bulletDistance = 600;
-    this.nextFire = 0; //this should always be 0
-    this.createBullets(-1, 'laser');
+    this.bulletDistance = 350;
+    // this.bullets = game.add.group();
+    // this.bulletClass = LaserBullet;
+    this.createBullets(-1, 'plasma_bullet');
     this.onFire.add(this.useBullet, this); //use a bullet when shooting
     this.onFire.add(this.firePlus, this); //play shoot sound when shooting
     this.isReloading = false;
   }
 
+  secondaryFire() {
+
+  }
+
+  preFire(game) {
+    if (this.hasBullets()) {
+      this.fire();
+    }
+  }
+
   firePlus() {
     this.shootSound.play()
+  }
+
+  postFire() {
   }
 
   useBullet() {
@@ -68,7 +87,7 @@ export default class PlasmaGun extends Phaser.Weapon {
   }
 
   getMaxMagazine() {
-    return 2000;
+    return 20;
   }
 
   resetMagazine() {

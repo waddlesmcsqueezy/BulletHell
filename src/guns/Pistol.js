@@ -1,57 +1,28 @@
-// KILL_CAMERA_BOUNDS
-// :
-// 4
-// KILL_DISTANCE
-// :
-// 2
-// KILL_LIFESPAN
-// :
-// 1
-// KILL_NEVER
-// :
-// 0
-// KILL_STATIC_BOUNDS
-// :
-// 6
-// KILL_WEAPON_BOUNDS
-// :
-// 3
-// KILL_WORLD_BOUNDS
-// :
-// 5
-
-class AntiMatterBullet extends Phaser.Bullet {
-  constructor() {
-    super();
-    this.damage = 20;
-  }
-}
-
-export default class AntiMatterialRifle extends Phaser.Weapon {
+export default class Pistol extends Phaser.Weapon {
   constructor(game) {
-    super(game, game.plugins);
+    super(game);
 
     // sounds
-    this.reloadSound = game.add.audio('antimatterial_reload');
-    this.shootSound = game.add.audio('antimatterial_shoot');
+    this.reloadSound = game.add.audio('pistol_reload');
+    this.shootSound = game.add.audio('pistol_shoot');
     this.sprite; //unused atm
     //fluff
-    this.name = 'Anti-Matterial Rifle';
+    this.name = 'The Master Blaster';
     //gun stats
     this.magazine = this.getMaxMagazine();
-    this.fireRate = 850; // delay inbetween shots in ms
-    this.bulletSpeed = 4000; //speed of bullets (pixels per second?)
-    this.bulletAngleVariance = 1; // adds this many degrees of vairance to the bullet spread.
+    this.fireRate = 150; // delay inbetween shots in ms
+    this.bulletSpeed = 375; //speed of bullets (pixels per second?)
+    this.bulletAngleVariance = 9; // adds this many degrees of vairance to the bullet spread.
 
     //bullet stats
     this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS; //KILL_DISTANCE : 2
-    this.bulletDistance = 450;
-    this.nextFire = 0; //this should always be 0
-    this.createBullets(-1, 'antimatterial');
+    this.bulletDistance = 285;
+    // this.bullets = game.add.group();
+    // this.bulletClass = LaserBullet;
+    this.createBullets(-1, 'pistol_bullet');
     this.onFire.add(this.useBullet, this); //use a bullet when shooting
     this.onFire.add(this.firePlus, this); //play shoot sound when shooting
     this.isReloading = false;
-    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
   }
 
   secondaryFire() {
@@ -82,7 +53,7 @@ export default class AntiMatterialRifle extends Phaser.Weapon {
   }
 
   getMaxMagazine() {
-    return 5;
+    return 12;
   }
 
   resetMagazine() {
@@ -91,7 +62,7 @@ export default class AntiMatterialRifle extends Phaser.Weapon {
   }
 
   getReloadTime() {
-    return 3 * Phaser.Timer.SECOND;
+    return 2 * Phaser.Timer.SECOND;
   }
 
   initiateReload(game) {

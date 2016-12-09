@@ -1,45 +1,115 @@
 import List from 'collections/list';
 
 export default class Actor {
-  constructor(game) {
-    this.armor;
-    this.health;
+  constructor(game, x, y, key) {
+    Phaser.Sprite.call(this, game, x, y, key);
 
-    this.actorSpeed = 4; //speed of actor
-    this.sprite = game.add.sprite(400, 300, 'soldier');
-    game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-    this.sprite.anchor.setTo(0.7, 0.7);
-    this.sprite.scale.setTo(0.3, 0.3)
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+    // game.physics.p2.enable(this);
+
+    this.armor = 0;
+    this.health = 1;
+
+    this.actorSpeed = 250; //speed of actor
+    this.anchor.setTo(0.5, 0.5);
+    this.smoothed = false;
 
     this.gunList = new List(); //getGunList()[0] is the currently equipped weapon
 
     this.itemSlot1;
     this.itemSlot2;
     this.item;
-  }
 
-  getBody() {
-      return this.sprite.body;
-  }
+    this.isDamagable = true;
+    this.isDead = false;
+    this.isMoving = false; //only used for ai at the moment
 
-  nextGun() {
-    if (this.getGunList()[0].isReloading == false) {
-      this.gunList.push(this.gunList.shift()); //remove first item in the list and move it to the end;
+    game.add.existing(this);
+
+    this.iFramesTime = 2 * Phaser.Timer.SECOND;
+  }
+}
+
+Actor.prototype = Object.create(Phaser.Sprite.prototype);
+Actor.prototype.constructor = Actor;
+
+Actor.prototype.addArmor = function(amount) {
+  if (this.armor === 0) {
+    this.armor = amount
+  } else {this.armor += amount;}
+}
+
+Actor.prototype.heal = function(amount) {
+  if (this.health === 0) {
+    this.health = amount
+  } else {this.health += amount;}
+}
+
+Actor.prototype.damage = function(amount, game) {
+  if (this.isDamagable) {
+    if (this.armor <= 0) {
+      this.health -= amount; //directly damage health
+    } else {
+      if (this.armor - amount <= this.armor) { // if damage would exceed armor amount
+        this.armor -= amount - (amount % this.armor); // get amount of damage armor would take eg; armor = 2 & damage = 3 in this case 3%2 = 1 so armor would take 2 damage
+        this.health -= (amount % this.armor); // get amount of damage gets through armor and damage health in this ^ example, health takes 1 damage, armor absorbed 2 damage
+      } else {this.armor -= amount;} // else, just directly damage armor
     }
-  }
+  } else {console.log("Actor is in iFrames")} // if actor in in their iFrames (invincible to taking damage)
+}
 
-  previousGun() {
-    if (this.getGunList()[0].isReloading == false) {
-      this.gunList.unshift(this.gunList.pop()); //remove last item in the list and move it to the beginning
-    }
-  }
+Actor.prototype.hasHealth = function() {
+  if (this.health <= 0) {
+    return false
+  } else {return true}
+}
 
-  addGun(gun) {
-    this.gunList.push(gun);
-    this.gunList.get(gun).trackSprite(this.sprite, 0, 0, true);
-  }
+Actor.prototype.enableDamage = function() {
+  this.isDamagable = true;
+}
 
-  getGunList() {
-    return this.gunList.toArray();
+Actor.prototype.disableDamage = function() {
+  this.isDamagable = false;
+}
+
+Actor.prototype.beginInvincibilityFrames = function(game) {
+  this.disableDamage();
+  game.time.events.add(this.getInvincibilityFrames(), this.enableDamage, this);
+}
+
+Actor.prototype.getInvincibilityFrames = function() {
+  return 2 * Phaser.Timer.SECOND;
+}
+
+Actor.prototype.getBody = function() {
+  return this.body;
+}
+
+Actor.prototype.nextGun = function() {
+  if (this.getGunList()[0].isReloading == false) {
+    this.gunList.push(this.gunList.shift()); //remove first item in the list and move it to the end;
   }
+}
+
+Actor.prototype.previousGun = function() {
+  if (this.getGunList()[0].isReloading == false) {
+    this.gunList.unshift(this.gunList.pop()); //remove last item in the list and move it to the beginning
+  }
+}
+
+Actor.prototype.addGun = function(gun) {
+  this.gunList.push(gun);
+  this.gunList.get(gun).trackSprite(this, 0, 0, true);
+}
+
+Actor.prototype.getGunList = function() {
+  return this.gunList.toArray();
+}
+
+Actor.prototype.stopMoving = function() {
+  this.isMoving = false
+}
+
+Actor.prototype.update = function() {
+  this.bringToTop();
 }
